@@ -492,22 +492,11 @@ bool InitializeSignatureCheck()
         // Safely load the MSVC runtime DLLs (since they cannot be delay loaded)
         auto loadRuntimeDll = [&szSystemDir](const wchar_t* szDll)
         {
-            std::wstring fullSystemDllPath;
-            fullSystemDllPath = szSystemDir;
-            fullSystemDllPath += L'\\';
-            fullSystemDllPath += szDll;
-            if(FileExists(fullSystemDllPath.c_str()))
-            {
-                LoadLibraryW(fullSystemDllPath.c_str());
-            }
-            else
-            {
-                std::wstring fullDllPath = szApplicationDir;
-                fullDllPath += L'\\';
-                fullDllPath += szDll;
-                if(FileExists(fullDllPath.c_str()))
-                    LoadLibraryCheckedW(szDll, true);
-            }
+            std::wstring fullDllPath = szApplicationDir;
+            fullDllPath += L'\\';
+            fullDllPath += szDll;
+            if(FileExists(fullDllPath.c_str()))
+                LoadLibraryCheckedW(szDll, true);
         };
         loadRuntimeDll(L"vcruntime140.dll");
         loadRuntimeDll(L"vcruntime140_1.dll");
